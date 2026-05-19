@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark light" />
+  <title>TestFlow — приложение для тестирования</title>
+  <script>
+    (() => {
+      const saved = localStorage.getItem('testflow.theme');
+      const systemLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      document.documentElement.dataset.theme = saved || (systemLight ? 'light' : 'dark');
+    })();
+  </script>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar" aria-label="Главная панель">
+      <a class="brand" href="#hero" aria-label="TestFlow домой">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" role="img"><path d="M10 7h21l7 7v27H10z"/><path d="M30 7v9h8"/><path d="M17 25l4 4 10-11"/></svg>
+        </span>
+        <span><strong>TestFlow</strong><small>тестирование без хаоса</small></span>
+      </a>
+      <nav class="nav" aria-label="Навигация">
+        <a href="#tests">Тесты</a>
+        <a href="#constructor">Конструктор</a>
+        <a href="#analytics">Аналитика</a>
+        <a href="#settings">Настройки</a>
+      </nav>
+      <div class="top-actions">
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Переключить тему">
+          <span class="sun" aria-hidden="true">☀</span><span class="moon" aria-hidden="true">☾</span>
+        </button>
+        <button class="primary small" id="startDemo" type="button">Пройти демо</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="hero">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Онлайн-платформа тестирования</p>
+          <h1>Создавайте тесты, проводите экзамены и анализируйте результаты в одном интерфейсе.</h1>
+          <p class="lead">Современное приложение для учебных центров, школ и внутренней аттестации: таймер, банк вопросов, drag & drop, экспорт JSON, темы и адаптив.</p>
+          <div class="hero-actions">
+            <button class="primary" id="newTestBtn" type="button">Создать тест</button>
+            <button class="ghost" id="exportState" type="button">Экспорт состояния</button>
+            <button class="ghost danger" id="resetAll" type="button">Сбросить настройки</button>
+          </div>
+          <div class="metrics" aria-label="Показатели системы">
+            <article><strong id="metricTests">8</strong><span>шаблонов</span></article>
+            <article><strong>96%</strong><span>готовность UI</span></article>
+            <article><strong id="metricAvg">82</strong><span>средний балл</span></article>
+          </div>
+        </div>
+        <div class="hero-panel reveal" aria-label="Демо экзамена">
+          <div class="exam-card">
+            <div class="exam-head">
+              <span class="status-dot"></span>
+              <span>Демо-тест активен</span>
+              <strong id="timer">07:30</strong>
+            </div>
+            <div class="progress-wrap"><span id="progressBar"></span></div>
+            <h2 id="questionTitle">Что делает localStorage?</h2>
+            <div class="answers" id="answers" role="radiogroup" aria-label="Варианты ответа"></div>
+            <div class="exam-footer">
+              <button class="ghost" id="prevQuestion" type="button">Назад</button>
+              <button class="primary" id="nextQuestion" type="button">Далее</button>
+            </div>
+          </div>
+          <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+        </div>
+      </section>
+
+      <section class="toolbar reveal" id="tests" aria-label="Фильтры тестов">
+        <div>
+          <p class="eyebrow">Библиотека</p>
+          <h2>Шаблоны тестирования</h2>
+        </div>
+        <label class="searchbox">
+          <span aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" placeholder="Поиск: ЕНТ, Python, безопасность..." autocomplete="off" />
+        </label>
+        <select id="categoryFilter" aria-label="Фильтр категории">
+          <option value="all">Все категории</option>
+          <option value="school">Школа</option>
+          <option value="it">IT</option>
+          <option value="hr">HR</option>
+          <option value="security">Безопасность</option>
+        </select>
+      </section>
+
+      <section class="grid" id="testGrid" aria-live="polite"></section>
+
+      <section class="workspace reveal" id="constructor">
+        <div class="builder">
+          <p class="eyebrow">Конструктор</p>
+          <h2>Соберите сценарий теста</h2>
+          <p>Перетаскивайте блоки, включайте параметры и сохраняйте структуру. Порядок блоков запоминается.</p>
+          <div class="builder-list" id="builderList" aria-label="Блоки конструктора"></div>
+        </div>
+        <aside class="settings-card" id="settings">
+          <p class="eyebrow">Параметры</p>
+          <h2>Настройки экзамена</h2>
+          <label><span>Время, минут</span><input id="duration" type="range" min="5" max="120" value="45" /><b id="durationValue">45</b></label>
+          <label><span>Проходной балл</span><input id="passScore" type="range" min="40" max="100" value="70" /><b id="passScoreValue">70%</b></label>
+          <label class="switch"><input id="shuffle" type="checkbox" checked /><span></span> Перемешивать вопросы</label>
+          <label class="switch"><input id="antiCheat" type="checkbox" checked /><span></span> Античит-мониторинг</label>
+          <label class="switch"><input id="instantResult" type="checkbox" /><span></span> Показывать результат сразу</label>
+        </aside>
+      </section>
+
+      <section class="analytics reveal" id="analytics">
+        <div>
+          <p class="eyebrow">Аналитика</p>
+          <h2>Панель результатов</h2>
+          <p>Визуальная имитация отчёта: средний балл, сложность вопросов и динамика прохождения.</p>
+        </div>
+        <div class="charts">
+          <article class="chart-card"><h3>Средний балл</h3><div class="ring" style="--value:82"><span>82%</span></div></article>
+          <article class="chart-card"><h3>Сложность</h3><div class="bars"><i style="height:62%"></i><i style="height:88%"></i><i style="height:45%"></i><i style="height:70%"></i><i style="height:54%"></i></div></article>
+          <article class="chart-card"><h3>Надёжность</h3><ul class="checklist"><li>✓ Контроль времени</li><li>✓ Экспорт JSON</li><li>✓ Адаптивный интерфейс</li><li>✓ Keyboard-friendly</li></ul></article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="loader" id="loader" aria-hidden="true"><span></span><b>Загрузка...</b></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/drag.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

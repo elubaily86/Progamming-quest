@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Корзина — SportShop</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">🏆 SportShop</div>
+    <nav>
+      <a href="index.html">Главная</a>
+      <a href="shop.html">Каталог</a>
+      <a href="cart.html">Корзина</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <h1>Корзина</h1>
+    <div id="cartItems" class="cart"></div>
+    <div class="cart-footer">
+      <h2 id="total">Итого: 0 ₸</h2>
+      <button class="btn" onclick="checkout()">Оформить заказ</button>
+      <button class="btn btn-secondary" onclick="clearCart()">Очистить корзину</button>
+    </div>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

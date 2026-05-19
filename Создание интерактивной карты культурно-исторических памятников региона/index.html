@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aktobe Heritage — культурная карта</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --paper: #ead7b7;
+      --paper-light: #f7ead1;
+      --ink: #2b2118;
+      --muted: #6f5a40;
+      --teal: #0e4a47;
+      --teal-2: #17635e;
+      --gold: #d0a24b;
+      --bronze: #8c5b2b;
+      --line: rgba(72, 44, 18, .25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at 8% 12%, rgba(255,255,255,.45), transparent 20%),
+        radial-gradient(circle at 92% 18%, rgba(91, 48, 20, .22), transparent 25%),
+        linear-gradient(135deg, #b88a51, #f4d9a8 40%, #9e6a3f);
+      padding: 28px 0;
+    }
+
+    .page {
+      width: min(1240px, 94%);
+      margin: 0 auto;
+      border-radius: 18px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(90, 57, 22, .12), transparent 18%),
+        radial-gradient(circle at 80% 70%, rgba(90, 57, 22, .10), transparent 22%),
+        var(--paper-light);
+      box-shadow: 0 30px 90px rgba(33, 18, 8, .38);
+      border: 1px solid rgba(76, 46, 18, .35);
+      position: relative;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .12;
+      background-image:
+        linear-gradient(90deg, rgba(70,40,20,.18) 1px, transparent 1px),
+        linear-gradient(rgba(70,40,20,.14) 1px, transparent 1px);
+      background-size: 58px 58px;
+      mix-blend-mode: multiply;
+    }
+
+    header {
+      height: 86px;
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      background: rgba(247, 232, 203, .92);
+      position: relative;
+      z-index: 3;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+
+    .compass {
+      width: 42px;
+      height: 42px;
+      border: 2px solid var(--teal);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--teal);
+      font-size: 24px;
+      transform: rotate(-12deg);
+    }
+
+    .logo {
+      font-size: 31px;
+      font-weight: 900;
+      line-height: .85;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      display: block;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--bronze);
+      margin-top: 5px;
+      text-transform: uppercase;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    nav a {
+      color: var(--ink);
+      text-decoration: none;
+      padding: 8px 0;
+      border-bottom: 2px solid transparent;
+      transition: .2s;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--teal);
+      border-color: var(--gold);
+    }
+
+    .header-actions { display: flex; gap: 12px; align-items: center; }
+
+    .icon-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 24px;
+    }
+
+    .menu-btn {
+      background: var(--teal);
+      color: var(--paper-light);
+      border-color: #0b3231;
+      font-size: 22px;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 2;
+      padding: 58px 48px 38px;
+      display: grid;
+      grid-template-columns: .76fr 1.24fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(44px, 6vw, 74px);
+      line-height: .96;
+      letter-spacing: -2px;
+      margin-bottom: 18px;
+    }
+
+    .ornament {
+      width: 230px;
+      height: 18px;
+      margin: 12px 0 28px;
+      position: relative;
+    }
+
+    .ornament::before, .ornament::after {
+      content: "";
+      position: absolute;
+      top: 8px;
+      height: 1px;
+      background: var(--bronze);
+      width: 94px;
+    }
+
+    .ornament::before { left: 0; }
+    .ornament::after { right: 0; }
+
+    .ornament span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--bronze);
+      font-size: 19px;
+    }
+
+    .hero p {
+      color: #3d2f21;
+      font-size: 19px;
+      line-height: 1.58;
+      max-width: 390px;
+      margin-bottom: 26px;
+    }
+
+    .btn {
+      border: 1px solid rgba(0,0,0,.28);
+      border-radius: 8px;
+      padding: 14px 22px;
+      font-family: Arial, sans-serif;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .2s;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.16), 0 10px 22px rgba(45,25,9,.18);
+    }
+
+    .btn-primary { background: var(--teal); color: #fff4d9; }
+    .btn-primary:hover { background: #113d3b; transform: translateY(-2px); }
+
+    .hero-poster {
+      min-height: 430px;
+      border-radius: 18px;
+      border: 2px solid rgba(72, 43, 17, .55);
+      padding: 12px;
+      background: linear-gradient(135deg, #5f3518, #d2a057 48%, #3a2111);
+      box-shadow: 0 28px 60px rgba(52, 29, 12, .35);
+      position: relative;
+    }
+
+    .poster-inner {
+      height: 100%;
+      min-height: 405px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 225, 165, .55);
+      overflow: hidden;
+      position: relative;
+      background:
+        linear-gradient(180deg, rgba(24,16,10,.10), rgba(20,12,5,.70)),
+        url("images/aktobe-map.jpg");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .stamp {
+      position: absolute;
+      right: 26px;
+      top: 24px;
+      width: 132px;
+      height: 132px;
+      border: 3px double rgba(255,232,180,.75);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-weight: 900;
+      color: #fff0c8;
+      font-size: 18px;
+      transform: rotate(-8deg);
+      background: rgba(36, 24, 12, .36);
+      backdrop-filter: blur(2px);
+    }
+
+    .poster-photo {
+      position: absolute;
+      left: 42px;
+      top: 38px;
+      width: 300px;
+      height: 220px;
+      border-radius: 14px;
+      border: 6px solid rgba(255,235,188,.72);
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.25)),
+        url("images/nur-gasyr.jpeg");
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 18px 36px rgba(0,0,0,.35);
+      transform: rotate(-3deg);
+    }
+
+    .poster-photo.second {
+      left: auto;
+      right: 72px;
+      top: 138px;
+      width: 250px;
+      height: 185px;
+      background-image:
+        linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.25)),
+        url("images/abilkhair-khan.webp");
+      transform: rotate(4deg);
+    }
+
+    .poster-caption {
+      position: absolute;
+      left: 46px;
+      right: 46px;
+      bottom: 32px;
+      color: white;
+      text-shadow: 0 3px 15px rgba(0,0,0,.62);
+    }
+
+    .poster-caption h2 { font-size: 42px; line-height: 1; margin-bottom: 8px; }
+    .poster-caption p { font-size: 18px; color: #ffe9bc; }
+
+    .map-section {
+      position: relative;
+      z-index: 2;
+      margin: 0 28px 54px;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      border: 2px solid rgba(75,46,18,.58);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(45,25,9,.22);
+      background: var(--paper);
+    }
+
+    .map-sidebar {
+      padding: 32px;
+      background: var(--teal);
+      color: #fff0c7;
+      position: relative;
+      z-index: 2;
+    }
+
+    .map-sidebar::after {
+      content: "";
+      position: absolute;
+      right: -52px;
+      top: 0;
+      width: 96px;
+      height: 100%;
+      background: var(--teal);
+      transform: skewX(-8deg);
+      z-index: 1;
+    }
+
+    .map-sidebar > * { position: relative; z-index: 2; }
+
+    .map-sidebar h2 {
+      font-size: 34px;
+      line-height: 1.06;
+      margin-bottom: 18px;
+    }
+
+    .map-sidebar p {
+      font-family: Arial, sans-serif;
+      line-height: 1.7;
+      font-size: 14px;
+      color: #f6e7bf;
+      margin-bottom: 24px;
+    }
+
+    .filters-title {
+      font-family: Arial, sans-serif;
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .filter-list { display: grid; gap: 8px; }
+
+    .filter-btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid rgba(236, 207, 139, .48);
+      border-radius: 8px;
+      color: #fff4d4;
+      background: rgba(0,0,0,.08);
+      padding: 10px 12px;
+      font-family: Arial, sans-serif;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: #e4c37e;
+      color: #2c1f14;
+    }
+
+    .city-map {
+      position: relative;
+      min-height: 620px;
+      background:
+        linear-gradient(180deg, rgba(26,18,10,.08), rgba(26,18,10,.34)),
+        url("images/aktobe-map.jpg");
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+
+    .city-map::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(235, 209, 156, .10);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .city-map::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .22;
+      background-image:
+        linear-gradient(28deg, transparent 0 48%, #fff3d2 48.6% 50.8%, transparent 51.5%),
+        linear-gradient(-12deg, transparent 0 47%, #fff3d2 48% 50%, transparent 51%);
+      background-size: 180px 180px, 220px 220px;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .district {
+      position: absolute;
+      font-family: Arial, sans-serif;
+      color: rgba(255, 244, 211, .92);
+      text-shadow: 0 2px 8px rgba(0,0,0,.55);
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-align: center;
+      z-index: 2;
+      background: rgba(14, 70, 68, .45);
+      padding: 6px 9px;
+      border-radius: 8px;
+    }
+
+    .pin {
+      position: absolute;
+      z-index: 4;
+      width: 42px;
+      height: 42px;
+      border-radius: 50% 50% 50% 7px;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      border: 3px solid #fff5d7;
+      background: var(--bronze);
+      box-shadow: 0 10px 20px rgba(43, 27, 10, .35);
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .pin:hover, .pin.active {
+      transform: translate(-50%, -50%) rotate(-45deg) scale(1.14);
+      z-index: 5;
+    }
+
+    .pin::before {
+      content: attr(data-icon);
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      transform: rotate(45deg);
+      font-size: 14px;
+      color: white;
+      background: rgba(0,0,0,.16);
+    }
+
+    .pin.sacred { background: #8f5a2a; }
+    .pin.museum { background: #6f3c66; }
+    .pin.park { background: #3d7554; }
+    .pin.monument { background: #b8752e; }
+    .pin.history { background: #0f5a56; }
+
+    .map-controls {
+      position: absolute;
+      right: 22px;
+      top: 28px;
+      z-index: 5;
+      display: grid;
+      gap: 8px;
+    }
+
+    .map-control {
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255,244,218,.92);
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--ink);
+      box-shadow: 0 8px 15px rgba(45,25,9,.18);
+    }
+
+    .route-btn {
+      position: absolute;
+      right: 28px;
+      bottom: 28px;
+      z-index: 5;
+      background: var(--teal);
+      color: #fff0c7;
+      border: 1px solid rgba(236,207,139,.65);
+      border-radius: 8px;
+      padding: 15px 25px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 17px;
+      cursor: pointer;
+      box-shadow: 0 12px 22px rgba(45,25,9,.22);
+    }
+
+    .map-info {
+      position: absolute;
+      left: 32px;
+      bottom: 28px;
+      z-index: 5;
+      width: min(360px, 45%);
+      background: rgba(255, 241, 211, .94);
+      border: 1px solid rgba(84,53,24,.34);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 12px 26px rgba(45,25,9,.18);
+    }
+
+    .map-info h3 { font-size: 20px; margin-bottom: 6px; }
+    .map-info p { font-family: Arial, sans-serif; color: #5b4633; line-height: 1.5; font-size: 13px; }
+
+    .places {
+      position: relative;
+      z-index: 2;
+      padding: 6px 36px 42px;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .section-heading h2 {
+      font-size: 44px;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .section-heading p {
+      font-family: Arial, sans-serif;
+      color: var(--muted);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+    }
+
+    .place-card {
+      background: rgba(246, 229, 198, .88);
+      border: 1px solid rgba(91, 56, 23, .32);
+      border-radius: 14px;
+      padding: 11px;
+      box-shadow: 0 15px 35px rgba(45,25,9,.14);
+      transition: .2s;
+    }
+
+    .place-card:hover { transform: translateY(-6px); }
+
+    .place-img {
+      height: 155px;
+      border-radius: 10px;
+      border: 1px solid rgba(91,56,23,.28);
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .place-img::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.00), rgba(0,0,0,.24)),
+        radial-gradient(circle at 22% 25%, rgba(255,255,255,.20), transparent 19%);
+    }
+
+    .place-img::after {
+      content: attr(data-symbol);
+      position: absolute;
+      right: 10px;
+      bottom: 8px;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(14, 70, 68, .88);
+      font-size: 18px;
+      color: #fff0c7;
+      box-shadow: 0 6px 18px rgba(0,0,0,.25);
+    }
+
+    .badge {
+      display: inline-block;
+      margin: 12px 0 9px;
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      font-weight: 900;
+      color: #fff2cb;
+      background: var(--teal);
+      border-radius: 5px;
+      padding: 5px 8px;
+      text-transform: uppercase;
+    }
+
+    .place-card h3 {
+      font-size: 19px;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .place-card p {
+      min-height: 72px;
+      font-family: Arial, sans-serif;
+      color: #584333;
+      font-size: 13px;
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+
+    .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .small-btn {
+      border: 1px solid rgba(91,56,23,.32);
+      background: #f7e8c9;
+      color: var(--ink);
+      border-radius: 7px;
+      padding: 9px 12px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      font-weight: 700;
+    }
+
+    .bookmark {
+      width: 24px;
+      height: 24px;
+      border: 1px solid rgba(91,56,23,.38);
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .routes {
+      position: relative;
+      z-index: 2;
+      padding: 0 36px 46px;
+    }
+
+    .route-banner {
+      border-radius: 12px;
+      border: 2px solid rgba(196,146,58,.52);
+      background:
+        linear-gradient(90deg, rgba(14,70,68,.96), rgba(14,70,68,.88)),
+        radial-gradient(circle at 80% 40%, rgba(255,238,185,.35), transparent 28%);
+      color: #ffe7b1;
+      padding: 28px 34px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .route-banner h2 { font-size: 28px; margin-bottom: 6px; }
+    .route-banner p { font-family: Arial, sans-serif; color: #f5ddb0; line-height: 1.5; }
+    .skyline { font-size: 60px; opacity: .88; white-space: nowrap; }
+
+    footer {
+      position: relative;
+      z-index: 2;
+      padding: 28px 48px;
+      background: #22160c;
+      color: #f5deb2;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    footer span { color: #d2a356; font-weight: 900; }
+
+    @media (max-width: 1040px) {
+      nav { display: none; }
+      .hero { grid-template-columns: 1fr; }
+      .map-section { grid-template-columns: 1fr; }
+      .map-sidebar::after { display: none; }
+      .cards { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 650px) {
+      body { padding: 0; }
+      .page { width: 100%; border-radius: 0; }
+      header { padding: 0 22px; }
+      .hero { padding: 38px 24px; }
+      .hero h1 { font-size: 44px; }
+      .hero-poster { min-height: 360px; }
+      .poster-inner { min-height: 335px; }
+      .poster-photo { width: 210px; height: 150px; }
+      .poster-photo.second { width: 185px; height: 135px; right: 30px; }
+      .poster-caption h2 { font-size: 29px; }
+      .map-section { margin: 0 16px 38px; }
+      .city-map { min-height: 520px; }
+      .map-info { width: calc(100% - 44px); }
+      .route-btn { left: 22px; right: 22px; bottom: 132px; }
+      .cards { grid-template-columns: 1fr; }
+      .places, .routes { padding-left: 18px; padding-right: 18px; }
+      .route-banner { display: block; }
+      .skyline { margin-top: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <div class="compass">✦</div>
+        <div class="logo">AKTOBE<span>культурное наследие</span></div>
+      </div>
+      <nav>
+        <a href="#home">Главная</a>
+        <a href="#map" class="active">Карта</a>
+        <a href="#routes">Маршруты</a>
+        <a href="#places">Достопримечательности</a>
+        <a href="#about">О городе</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" title="Избранное">♡</button>
+        <button class="icon-btn menu-btn" title="Меню">☰</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div>
+          <h1>Откройте<br>исторический<br>Актобе</h1>
+          <div class="ornament"><span>◆</span></div>
+          <p>Путеводитель по историческим местам, музеям, паркам, архитектурным памятникам и культурному наследию нашего города.</p>
+          <button class="btn btn-primary" onclick="scrollToMap()">Исследовать карту →</button>
+        </div>
+
+        <div class="hero-poster">
+          <div class="poster-inner">
+            <div class="stamp">АКТОБЕ<br>ОСНОВАН<br>1869</div>
+            <div class="poster-photo"></div>
+            <div class="poster-photo second"></div>
+            <div class="poster-caption">
+              <h2>Актобе — культурная карта</h2>
+              <p>Путешествие сквозь историю и наследие</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="map-section" id="map">
+        <aside class="map-sidebar">
+          <h2>Интерактивная<br>карта Актобе</h2>
+          <div class="ornament" style="width: 170px; margin-bottom: 22px;"><span>✦</span></div>
+          <p>Фильтруйте объекты по типу и нажимайте на маркеры. Карта использует загруженное спутниковое изображение Актобе.</p>
+
+          <div class="filters-title">ФИЛЬТРЫ</div>
+          <div class="filter-list">
+            <button class="filter-btn active" onclick="setFilter('all', this)">🏺 Все объекты <span>›</span></button>
+            <button class="filter-btn" onclick="setFilter('history', this)">🏛️ История и памятники <span>›</span></button>
+            <button class="filter-btn" onclick="setFilter('museum', this)">🖼️ Музеи и галереи <span>›</span></button>
+            <button class="filter-btn" onclick="setFilter('sacred', this)">🕌 Храмы и мечети <span>›</span></button>
+            <button class="filter-btn" onclick="setFilter('park', this)">☘️ Парки и скверы <span>›</span></button>
+            <button class="filter-btn" onclick="setFilter('monument', this)">⭐ Памятники <span>›</span></button>
+          </div>
+        </aside>
+
+        <div class="city-map" id="cityMap">
+          <div class="district" style="left: 43%; top: 18%;">ЦЕНТРАЛЬНЫЙ<br>РАЙОН</div>
+          <div class="district" style="left: 11%; top: 32%;">АЛМАТЫК<br>район</div>
+          <div class="district" style="right: 9%; top: 35%;">НОВЫЙ<br>ГОРОД</div>
+          <div class="district" style="left: 41%; top: 50%;">Старый город</div>
+          <div class="district" style="left: 68%; top: 63%;">Жилгородок</div>
+          <div class="map-controls">
+            <button class="map-control">+</button>
+            <button class="map-control">−</button>
+            <button class="map-control">⌾</button>
+          </div>
+          <button class="route-btn" onclick="showRoute()">◌ Построить маршрут</button>
+          <div class="map-info" id="mapInfo">
+            <h3>Выберите объект</h3>
+            <p>Нажмите на маркер, чтобы увидеть описание места, категорию и короткую подсказку для посещения.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="places" id="places">
+        <div class="section-heading">
+          <h2>Лучшие места Актобе</h2>
+          <p>Исторические памятники, музеи, парки и другие значимые места города</p>
+        </div>
+        <div class="cards" id="cards"></div>
+      </section>
+
+      <section class="routes" id="routes">
+        <div class="route-banner">
+          <div>
+            <h2>Исследуйте. Открывайте. Сохраняйте наследие.</h2>
+            <p>Актобе — город с богатой историей и культурой. Эта карта помогает превратить обычную прогулку в небольшое путешествие.</p>
+          </div>
+          <div class="skyline">⌂ 🕌 🏛 ✦</div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="about">
+      <div>© 2026 <span>aktobemap</span>. Тестовый проект.</div>
+      <div>Телефон: 7708187098 · Email: Elubai_production86@gmail.com</div>
+    </footer>
+  </div>
+
+  <script>
+    const places = [
+      {
+        id: 1,
+        name: "Памятник Абилкайыр хану",
+        category: "monument",
+        badge: "Памятник",
+        symbol: "♞",
+        img: "images/abilkhair-khan.webp",
+        x: 45,
+        y: 36,
+        description: "Конный монумент хану Младшего жуза, один из узнаваемых символов центрального Актобе."
+      },
+      {
+        id: 2,
+        name: "Актюбинский краеведческий музей",
+        category: "museum",
+        badge: "Музей",
+        symbol: "🏛",
+        img: "images/kraeved-museum.png",
+        x: 36,
+        y: 46,
+        description: "Музей с материалами об истории, археологии, природе и культуре Актюбинского региона."
+      },
+      {
+        id: 3,
+        name: "Мечеть Нур-Гасыр",
+        category: "sacred",
+        badge: "Архитектура",
+        symbol: "🕌",
+        img: "images/nur-gasyr.jpeg",
+        x: 62,
+        y: 30,
+        description: "Одна из самых известных мечетей города и важный архитектурный ориентир Актобе."
+      },
+      {
+        id: 4,
+        name: "Парк Первого Президента",
+        category: "park",
+        badge: "Парк",
+        symbol: "🌳",
+        img: "images/first-president-park.jpg",
+        x: 79,
+        y: 45,
+        description: "Популярное место для прогулок, семейного отдыха и городских мероприятий."
+      },
+      {
+        id: 5,
+        name: "Филармония им. Исы Байзакова",
+        category: "history",
+        badge: "Культура",
+        symbol: "⌂",
+        img: "images/filarmonia.jpg",
+        x: 52,
+        y: 54,
+        description: "Культурная площадка города с концертами, творческими событиями и узнаваемым фасадом."
+      },
+      {
+        id: 6,
+        name: "Музей Алии Молдагуловой",
+        category: "museum",
+        badge: "Память",
+        symbol: "★",
+        img: "images/aliya-museum.jfif",
+        x: 56,
+        y: 40,
+        description: "Мемориальный музей, посвящённый подвигу Героя Советского Союза Алии Молдагуловой."
+      },
+      {
+        id: 7,
+        name: "Памятник Айтеке би",
+        category: "monument",
+        badge: "Памятник",
+        symbol: "⚖",
+        img: "images/aiteke-bi.jpg",
+        x: 67,
+        y: 57,
+        description: "Монумент, посвящённый одному из великих казахских биев и символу мудрости народа."
+      },
+      {
+        id: 8,
+        name: "Актюбинский планетарий",
+        category: "museum",
+        badge: "Культура",
+        symbol: "✦",
+        img: "images/planetarium.jfif",
+        x: 30,
+        y: 63,
+        description: "Познавательное место для изучения космоса, науки и истории астрономии."
+      },
+      {
+        id: 9,
+        name: "Свято-Никольский собор",
+        category: "sacred",
+        badge: "Храм",
+        symbol: "✚",
+        img: "images/st-nicholas.jfif",
+        x: 70,
+        y: 25,
+        description: "Православный храм и значимый религиозный объект городской архитектуры."
+      },
+      {
+        id: 10,
+        name: "Триатлон парк",
+        category: "park",
+        badge: "Парк",
+        symbol: "⌁",
+        img: "images/triatlon-park.png",
+        x: 72,
+        y: 70,
+        description: "Современная зона для прогулок, бега, веломаршрутов и активного отдыха."
+      }
+    ];
+
+    let currentFilter = "all";
+
+    function scrollToMap() {
+      document.getElementById("map").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function setFilter(filter, button) {
+      currentFilter = filter;
+      document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+      button.classList.add("active");
+      renderMap();
+      renderCards();
+    }
+
+    function getVisiblePlaces() {
+      return currentFilter === "all" ? places : places.filter(place => place.category === currentFilter);
+    }
+
+    function renderMap() {
+      const map = document.getElementById("cityMap");
+      map.querySelectorAll(".pin").forEach(pin => pin.remove());
+
+      getVisiblePlaces().forEach(place => {
+        const pin = document.createElement("button");
+        pin.className = `pin ${place.category}`;
+        pin.style.left = place.x + "%";
+        pin.style.top = place.y + "%";
+        pin.dataset.icon = place.symbol;
+        pin.title = place.name;
+        pin.onclick = () => selectPlace(place.id, pin);
+        map.appendChild(pin);
+      });
+    }
+
+    function renderCards() {
+      const cards = document.getElementById("cards");
+      cards.innerHTML = getVisiblePlaces().map(place => `
+        <article class="place-card">
+          <div class="place-img" data-symbol="${place.symbol}" style="background-image: linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.26)), url('${place.img}')"></div>
+          <span class="badge">${place.badge}</span>
+          <h3>${place.name}</h3>
+          <p>${place.description}</p>
+          <div class="card-bottom">
+            <button class="small-btn" onclick="selectPlaceByCard(${place.id})">Подробнее</button>
+            <button class="bookmark" title="Сохранить"></button>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function selectPlace(id, pin) {
+      const place = places.find(item => item.id === id);
+      if (!place) return;
+
+      document.querySelectorAll(".pin").forEach(item => item.classList.remove("active"));
+      if (pin) pin.classList.add("active");
+
+      document.getElementById("mapInfo").innerHTML = `
+        <h3>${place.symbol} ${place.name}</h3>
+        <p><strong>${place.badge}.</strong> ${place.description}</p>
+      `;
+    }
+
+    function selectPlaceByCard(id) {
+      scrollToMap();
+      setTimeout(() => {
+        const place = places.find(item => item.id === id);
+        if (!place) return;
+        const pins = [...document.querySelectorAll(".pin")];
+        const pin = pins.find(item => item.title === place.name);
+        selectPlace(id, pin);
+      }, 300);
+    }
+
+    function showRoute() {
+      document.getElementById("mapInfo").innerHTML = `
+        <h3>Маршрут готов</h3>
+        <p>Пример маршрута: Памятник Абилкайыр хану → Краеведческий музей → Нур-Гасыр → Парк Первого Президента.</p>
+      `;
+    }
+
+    renderMap();
+    renderCards();
+  </script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ToolRent Pro — веб-сервис для аренды строительного инструмента и оборудования" />
+  <title>ToolRent Pro — аренда строительного инструмента</title>
+  <script>
+    (function(){
+      const theme = localStorage.getItem('toolrent-theme') || 'dark';
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="loader" id="loader" role="status" aria-label="Загрузка сервиса">
+    <div class="loader__gear">⚙</div>
+    <span>Подготавливаем каталог оборудования...</span>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="ToolRent Pro на главную">
+      <span class="brand__mark">TR</span>
+      <span><b>ToolRent</b><small>Pro rental service</small></span>
+    </a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="#catalog">Каталог</a>
+      <a href="#booking">Бронь</a>
+      <a href="#analytics">Аналитика</a>
+      <a href="#rules">Условия</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Переключить тему">☀</button>
+      <button class="btn btn--ghost" id="exportBtn" type="button">Экспорт JSON</button>
+      <button class="btn btn--danger" id="resetBtn" type="button">Сбросить настройки</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero section">
+      <div class="hero__content reveal">
+        <p class="eyebrow">Онлайн-аренда · инструмент · оборудование · доставка</p>
+        <h1>Соберите заказ на строительный инструмент за пару минут</h1>
+        <p class="hero__lead">Каталог с фильтрами, расчёт стоимости, залога и доставки, проверка доступности, drag & drop сортировка карточек и сохранение состояния прямо в браузере.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#catalog">Выбрать инструмент</a>
+          <a class="btn btn--soft" href="#booking">Посчитать аренду</a>
+        </div>
+        <div class="trust-grid" aria-label="Преимущества сервиса">
+          <div><strong>120+</strong><span>единиц техники</span></div>
+          <div><strong>24/7</strong><span>онлайн-бронь</span></div>
+          <div><strong>15 мин</strong><span>быстрый расчёт</span></div>
+        </div>
+      </div>
+      <div class="hero__panel reveal">
+        <div class="machine-card">
+          <div class="machine-card__top"><span>Live rental</span><b id="liveTotal">0 ₸</b></div>
+          <div class="crane-scene" aria-hidden="true">
+            <div class="crane"></div><div class="hook"></div><div class="box"></div>
+          </div>
+          <div class="meter"><span style="width:72%"></span></div>
+          <p>Система автоматически считает стоимость, залог, доставку и мощность заказа.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section toolbar reveal" aria-label="Фильтры каталога">
+      <div class="search-wrap">
+        <span aria-hidden="true">⌕</span>
+        <input id="searchInput" type="search" placeholder="Поиск: перфоратор, лазер, бетономешалка..." aria-label="Поиск по каталогу" />
+      </div>
+      <select id="categoryFilter" aria-label="Фильтр категории">
+        <option value="all">Все категории</option>
+        <option value="power">Электроинструмент</option>
+        <option value="measure">Измерение</option>
+        <option value="heavy">Оборудование</option>
+        <option value="garden">Садовая техника</option>
+      </select>
+      <select id="sortFilter" aria-label="Сортировка">
+        <option value="popular">Сначала популярные</option>
+        <option value="priceAsc">Цена ↑</option>
+        <option value="priceDesc">Цена ↓</option>
+        <option value="depositAsc">Залог ↑</option>
+      </select>
+    </section>
+
+    <section id="catalog" class="section">
+      <div class="section-head reveal">
+        <p class="eyebrow">Каталог</p>
+        <h2>Инструменты и оборудование</h2>
+        <p>Перетаскивайте карточки, выбирайте товары, меняйте срок аренды — сервис всё сохранит.</p>
+      </div>
+      <div class="catalog-grid" id="catalogGrid" aria-live="polite"></div>
+    </section>
+
+    <section id="booking" class="section dashboard reveal">
+      <div class="booking-card">
+        <p class="eyebrow">Калькулятор аренды</p>
+        <h2>Расчёт заказа</h2>
+        <div class="form-grid">
+          <label>Дней аренды<input id="daysInput" type="number" min="1" max="60" value="3" /></label>
+          <label>Доставка<select id="deliverySelect"><option value="0">Самовывоз</option><option value="2500">Доставка по городу — 2 500 ₸</option><option value="5000">Срочная доставка — 5 000 ₸</option></select></label>
+          <label>Тип клиента<select id="clientSelect"><option value="1">Частный клиент</option><option value="0.92">Бригада / ИП -8%</option><option value="0.86">Компания -14%</option></select></label>
+          <label>Дата старта<input id="dateInput" type="date" /></label>
+        </div>
+        <div class="totals">
+          <div><span>Аренда</span><b id="rentTotal">0 ₸</b></div>
+          <div><span>Залог</span><b id="depositTotal">0 ₸</b></div>
+          <div><span>Доставка</span><b id="deliveryTotal">0 ₸</b></div>
+          <div class="total"><span>Итого к оплате</span><b id="grandTotal">0 ₸</b></div>
+        </div>
+        <button class="btn btn--primary" id="reserveBtn" type="button">Забронировать демо-заказ</button>
+        <p class="status" id="bookingStatus" role="status"></p>
+      </div>
+      <aside class="cart-card" aria-label="Выбранные товары">
+        <h3>Выбранное оборудование</h3>
+        <div id="cartList" class="cart-list"></div>
+      </aside>
+    </section>
+
+    <section id="analytics" class="section reveal">
+      <div class="section-head">
+        <p class="eyebrow">Вау-эффект</p>
+        <h2>Панель загрузки склада</h2>
+        <p>Мини-аналитика показывает популярность категорий и состояние заказа.</p>
+      </div>
+      <div class="analytics-grid">
+        <div class="chart-card"><h3>Популярность</h3><canvas id="categoryChart" width="500" height="260" aria-label="График популярности категорий"></canvas></div>
+        <div class="chart-card"><h3>Проверка заказа</h3><ul class="checklist" id="checklist"></ul></div>
+      </div>
+    </section>
+
+    <section id="rules" class="section rules reveal">
+      <article><span>01</span><h3>Документы</h3><p>Для демо-сервиса указаны правила: удостоверение личности, договор, возврат в чистом виде.</p></article>
+      <article><span>02</span><h3>Залог</h3><p>Залог зависит от класса оборудования и автоматически суммируется в заказе.</p></article>
+      <article><span>03</span><h3>Доставка</h3><p>Можно выбрать самовывоз, обычную или срочную доставку. Цена пересчитывается мгновенно.</p></article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>ToolRent Pro · тестовый проект · аренда строительного инструмента онлайн</p>
+    <a href="#top">Наверх ↑</a>
+  </footer>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>

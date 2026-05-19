@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PCForge Pro — интерактивный сайт-конфигуратор системных блоков ПК онлайн: совместимость, бюджет, мощность, экспорт JSON, drag and drop.">
+  <title>PCForge Pro — конфигуратор ПК онлайн</title>
+  <script>
+    (function(){
+      try{
+        var theme=localStorage.getItem('pcforge_pro_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+      }catch(e){document.documentElement.setAttribute('data-theme','dark')}
+    })();
+  </script>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="fx-grid" aria-hidden="true"></div>
+  <div class="fx-orb fx-orb-a" aria-hidden="true"></div>
+  <div class="fx-orb fx-orb-b" aria-hidden="true"></div>
+  <a class="skip-link" href="#catalog">Перейти к каталогу</a>
+
+  <header class="topbar">
+    <nav class="nav shell" aria-label="Главная навигация">
+      <a href="#top" class="brand" aria-label="PCForge Pro — на главную">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 7.5C4 5.6 5.6 4 7.5 4h9C18.4 4 20 5.6 20 7.5v9c0 1.9-1.6 3.5-3.5 3.5h-9A3.5 3.5 0 0 1 4 16.5v-9Zm5 .2v8.6h2.2v-3h1.7c2.3 0 3.8-1.1 3.8-3 0-1.7-1.3-2.6-3.7-2.6H9Zm2.2 1.7h1.5c1.2 0 1.8.4 1.8 1.1 0 .8-.6 1.2-1.8 1.2h-1.5V9.4Z"/></svg>
+        </span>
+        <span><b>PCForge Pro</b><small>онлайн-конфигуратор ПК</small></span>
+      </a>
+      <div class="nav-links" aria-label="Разделы">
+        <a href="#builder">Сборка</a>
+        <a href="#catalog">Комплектующие</a>
+        <a href="#compat">Совместимость</a>
+        <a href="#result">Итог</a>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-button" id="themeToggle" type="button" aria-label="Переключить тёмную или светлую тему">
+          <svg class="sun" viewBox="0 0 24 24"><path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0-16a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1Zm0 17a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1ZM3 13H2a1 1 0 1 1 0-2h1a1 1 0 1 1 0 2Zm19 0h-1a1 1 0 1 1 0-2h1a1 1 0 1 1 0 2ZM5.64 19.78a1 1 0 0 1-1.42-1.42l.7-.7a1 1 0 0 1 1.42 1.42l-.7.7Zm13.44-13.44a1 1 0 0 1-1.42-1.42l.7-.7a1 1 0 0 1 1.42 1.42l-.7.7ZM4.22 5.64a1 1 0 0 1 1.42-1.42l.7.7a1 1 0 1 1-1.42 1.42l-.7-.7Zm13.44 13.44a1 1 0 0 1 1.42-1.42l.7.7a1 1 0 0 1-1.42 1.42l-.7-.7Z"/></svg>
+        </button>
+        <button class="button ghost" id="resetAll" type="button">Сбросить настройки</button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span></span> Конфигуратор системных блоков ПК онлайн</p>
+        <h1>Собери ПК с проверкой бюджета, ваттности и совместимости.</h1>
+        <p class="hero-text">Карточки комплектующих можно перетаскивать, выбирать, искать и экспортировать. Всё сохраняется прямо в браузере — без сервера и регистрации.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#catalog">Открыть каталог</a>
+          <button class="button soft" id="autoBuild" type="button">Автосборка Balance</button>
+        </div>
+        <div class="hero-micro" role="list" aria-label="Ключевые возможности">
+          <span role="listitem"><b>12</b> карточек</span>
+          <span role="listitem"><b>JSON</b> экспорт</span>
+          <span role="listitem"><b>Offline</b> friendly</span>
+        </div>
+      </div>
+      <div class="hero-visual reveal" aria-label="Визуализация системного блока">
+        <div class="pc-shell">
+          <div class="pc-glass"></div>
+          <div class="fan fan-1"></div>
+          <div class="fan fan-2"></div>
+          <div class="motherboard"></div>
+          <div class="gpu"></div>
+          <div class="ram ram-1"></div>
+          <div class="ram ram-2"></div>
+          <div class="rgb"></div>
+        </div>
+        <div class="live-chip chip-a"><span>CPU</span><b id="heroCpu">—</b></div>
+        <div class="live-chip chip-b"><span>PSU</span><b id="heroPsu">— W</b></div>
+      </div>
+    </section>
+
+    <section class="toolbox shell reveal" id="builder" aria-label="Инструменты сборки">
+      <label class="search-control">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 4a6.5 6.5 0 0 1 5.13 10.49l4.44 4.44a1 1 0 0 1-1.41 1.41l-4.44-4.44A6.5 6.5 0 1 1 10.5 4Zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z"/></svg>
+        <input id="searchInput" type="search" autocomplete="off" placeholder="Поиск: RTX, Ryzen, DDR5, airflow..." aria-label="Поиск комплектующих">
+      </label>
+      <label class="range-control">
+        <span>Бюджет</span>
+        <output id="budgetOut">500 000 ₸</output>
+        <input id="budgetRange" type="range" min="250000" max="1300000" step="25000" value="500000" aria-label="Выбрать бюджет сборки">
+      </label>
+      <select id="categoryFilter" class="select-control" aria-label="Фильтр по категории">
+        <option value="all">Все категории</option>
+      </select>
+      <button class="button soft" id="exportJson" type="button">Экспорт JSON</button>
+    </section>
+
+    <section class="stats shell" id="result" aria-label="Итог сборки">
+      <article class="stat-card reveal"><span class="stat-icon">₸</span><p>Стоимость</p><strong id="totalPrice">0 ₸</strong><small id="budgetHint">Пока ничего не выбрано</small></article>
+      <article class="stat-card reveal"><span class="stat-icon">⚡</span><p>Потребление</p><strong id="totalWatts">0 W</strong><small id="psuHint">БП будет рассчитан автоматически</small></article>
+      <article class="stat-card reveal"><span class="stat-icon">✓</span><p>Совместимость</p><strong id="compatScore">0%</strong><small id="compatHint">Выбери CPU и материнскую плату</small></article>
+      <article class="stat-card reveal"><span class="stat-icon">◎</span><p>Баланс</p><strong id="balanceScore">—</strong><small>Игры / монтаж / апгрейд</small></article>
+    </section>
+
+    <section class="workspace shell">
+      <aside class="side-panel reveal" aria-labelledby="chosenTitle">
+        <div class="panel-title">
+          <div><p class="eyebrow">Selected build</p><h2 id="chosenTitle">Текущая сборка</h2></div>
+          <span id="chosenCount">0/8</span>
+        </div>
+        <ul class="chosen-list" id="chosenList" aria-live="polite"></ul>
+        <div class="compat-panel" id="compat">
+          <div class="compat-head"><h3>Проверка рисков</h3><span id="riskBadge">ожидание</span></div>
+          <p id="compatText">Добавь процессор, видеокарту, плату и блок питания — появится детальная проверка.</p>
+          <div class="meter" aria-label="Шкала совместимости"><i id="compatMeter"></i></div>
+        </div>
+      </aside>
+
+      <section class="catalog" id="catalog" aria-label="Каталог комплектующих">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Каталог с drag & drop</p>
+          <h2>12 карточек комплектующих с сохранением порядка</h2>
+          <p>Перетащи карточки мышью или нажми Enter/Пробел на карточке, чтобы выбрать её. Поиск подсвечивает совпадения.</p>
+        </div>
+        <div id="loading" class="loading" aria-live="polite"><span></span> Загружаю каталог...</div>
+        <div class="parts-grid" id="partsGrid"></div>
+      </section>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/data.js" defer></script>
+  <script src="js/storage.js" defer></script>
+  <script src="js/utils.js" defer></script>
+  <script src="js/render.js" defer></script>
+  <script src="js/dragdrop.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
