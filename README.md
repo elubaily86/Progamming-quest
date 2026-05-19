@@ -13,7 +13,7 @@
 ### 1. Game Protection
 | Game Protection | Astro Web | Testing App |
 |---|---|---|
-| <img src="https://github.com/user-attachments/assets/3a61aac8-98d0-4fa3-bef1-f34415092e3f" width="320"> | <img src="https://github.com/user-attachments/assets/eb78e29b-3beb-417a-b23d-21b61bc1d2bd" width="350"> | <img src="https://github.com/user-attachments/assets/40ef37d3-24f5-4cb7-8b66-c01e785af5e6" width="350"> |
+| <img src="https://github.com/user-attachments/assets/3a61aac8-98d0-4fa3-bef1-f34415092e3f" width="420"> | <img src="https://github.com/user-attachments/assets/eb78e29b-3beb-417a-b23d-21b61bc1d2bd" width="460"> | <img src="https://github.com/user-attachments/assets/40ef37d3-24f5-4cb7-8b66-c01e785af5e6" width="460"> |
 | Защита игрового приложения | Сайт по астрономии | Приложение для тестирования |
 
 Проект на тему защиты игрового приложения. В работе рассматривалась идея защиты игры от ошибок, неправильного поведения пользователя или нежелательных действий. Проект помог лучше понять, как можно продумывать безопасность, структуру программы и обработку возможных проблем.
