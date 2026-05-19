@@ -12,7 +12,8 @@
 
 ### 1. Game Protection
 
-![Game Protection](<img width="433" height="854" alt="image" src="https://github.com/user-attachments/assets/e0d3fb81-2490-4b4f-b13b-a7f9bf2b07ff" />)
+![Game Protection](<img width="432" height="852" alt="image" src="https://github.com/user-attachments/assets/3a61aac8-98d0-4fa3-bef1-f34415092e3f" />
+)
 
 Проект на тему защиты игрового приложения. В работе рассматривалась идея защиты игры от ошибок, неправильного поведения пользователя или нежелательных действий. Проект помог лучше понять, как можно продумывать безопасность, структуру программы и обработку возможных проблем.
 
