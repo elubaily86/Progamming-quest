@@ -92,8 +92,8 @@
 ### 10. Создание сайта по астрономии
 
 ![Изоброжение](https://github.com/user-attachments/assets/c8856ac6-2343-4d0f-9665-bb072205fc3f)
-
-https://github.com/user-attachments/assets/https://dl.dropboxusercontent.com/scl/fi/m10yis29xae8com5edkgv/msedge_j2T3SirUq1.mp4?rlkey=y4iquag64yszk0lg1i53fdn7l&dl=1
+## Видео демонстрация
+[Смотреть видео](https://dl.dropboxusercontent.com/scl/fi/m10yis29xae8com5edkgv/msedge_j2T3SirUq1.mp4?rlkey=y4iquag64yszk0lg1i53fdn7l&dl=1)
 
 Информационный сайт на тему астрономии. В проекте были использованы тематические блоки, изображения и оформление, связанное с космосом. Работа помогла закрепить навыки создания визуально оформленного сайта на конкретную тему.
 
